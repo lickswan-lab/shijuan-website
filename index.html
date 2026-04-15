@@ -244,15 +244,20 @@
     /* ===== DONATE ===== */
     .donate-section { text-align: center; }
     .donate-qr {
-      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+      display: flex; justify-content: center;
     }
-    .donate-item { text-align: center; }
+    .donate-item {
+      display: flex; flex-direction: column; align-items: center;
+    }
     .donate-item img {
-      width: 160px; height: 160px; border-radius: 12px;
+      width: 180px; height: 180px; border-radius: 12px;
       border: 1px solid var(--border); object-fit: cover;
-      margin-bottom: 8px;
+      display: block;
     }
-    .donate-item label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .donate-item label {
+      display: block; margin-top: 10px;
+      font-size: 13px; color: var(--text-secondary); font-weight: 500;
+    }
 
     /* ===== FOOTER ===== */
     footer {
@@ -383,7 +388,7 @@
         </ul>
       </div>
       <div class="feature-screenshot">
-        <img src="shot-immersive.png" alt="沉浸双页阅读" id="shot-immersive">
+        <img src="shot-immersive.png?v=2" alt="沉浸双页阅读" id="shot-immersive">
       </div>
     </div>
   </section>
