@@ -304,7 +304,94 @@
     /* ===== ANIMATIONS ===== */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
     .hero { animation: fadeUp 0.8s ease-out; }
-    .hero-screenshot { animation: fadeUp 1s ease-out 0.2s both; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: none;
+    }
+
+    /* Hero glow orbs */
+    .hero-bg {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden; pointer-events: none; z-index: -1;
+    }
+    .hero-bg .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3;
+      animation: orbFloat 12s ease-in-out infinite alternate;
+    }
+    .hero-bg .orb-1 {
+      width: 400px; height: 400px; top: -100px; right: 10%;
+      background: radial-gradient(circle, rgba(200,149,108,0.4), transparent 70%);
+    }
+    .hero-bg .orb-2 {
+      width: 300px; height: 300px; bottom: -50px; left: 5%;
+      background: radial-gradient(circle, rgba(212,160,112,0.3), transparent 70%);
+      animation-delay: -6s;
+    }
+    .hero-bg .orb-3 {
+      width: 200px; height: 200px; top: 30%; left: 50%;
+      background: radial-gradient(circle, rgba(232,224,208,0.5), transparent 70%);
+      animation-delay: -3s;
+    }
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.1); }
+    }
+
+    /* Card shine on hover */
+    .feature-card {
+      position: relative; overflow: hidden;
+    }
+    .feature-card::after {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      transform: translateX(-100%) rotate(0deg);
+      transition: transform 0.6s ease;
+      pointer-events: none;
+    }
+    .feature-card:hover::after {
+      transform: translateX(100%) rotate(0deg);
+    }
+
+    /* Feature screenshot subtle float */
+    .feature-screenshot img {
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .feature-screenshot img:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(60,50,35,0.15), 0 0 0 1px rgba(232,224,208,0.5);
+    }
+
+    /* AI tags glow */
+    .ai-tag {
+      transition: all 0.3s ease;
+    }
+    .ai-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 20px rgba(200,149,108,0.15);
+    }
+
+    /* Smooth section transitions */
+    section { position: relative; }
+
+    /* Button pulse on hero */
+    .btn-primary { position: relative; overflow: hidden; }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+      transform: translateX(-100%);
+      animation: btnShine 3s ease-in-out infinite;
+    }
+    @keyframes btnShine {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+    }
   </style>
 </head>
 <body>
@@ -327,10 +414,15 @@
   </nav>
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" style="position: relative;">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
     <div class="hero-badge">v1.2.5 · 沉浸双页阅读 / 暗色模式 / 多模型 AI 对话</div>
     <h1>拾起每一卷<br>成为你的<em>深度阅读</em>伙伴</h1>
-    <p>本地优先的智能文献管理工具。阅读、OCR、注释、AI 对话、跨文献笔记，整合在一个温暖的界面中。</p>
+    <p>本地优先的智能文献管理工具<br>阅读、OCR、注释、AI 对话、跨文献笔记，整合在一个温暖的界面中</p>
     <div class="hero-actions">
       <a href="#download" class="btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -352,13 +444,13 @@
 
   <!-- FEATURE SHOWCASE 1: 阅读 + 注释 -->
   <section id="features">
-    <div class="section-header">
+    <div class="section-header reveal">
       <div class="label">核心功能</div>
       <h2>为深度阅读而生</h2>
       <p>不只是管理文献，更是构建你的知识体系</p>
     </div>
 
-    <div class="feature-row">
+    <div class="feature-row reveal">
       <div class="feature-text">
         <div class="label">阅读 · 注释</div>
         <h3>选中即注释，思考不中断</h3>
@@ -374,7 +466,7 @@
       </div>
     </div>
 
-    <div class="feature-row reverse">
+    <div class="feature-row reverse reveal">
       <div class="feature-text">
         <div class="label">OCR 识别</div>
         <h3>扫描版 PDF 也能深度阅读</h3>
@@ -393,7 +485,7 @@
 
   <!-- FEATURE SHOWCASE 2: 沉浸阅读 -->
   <section id="immersive" style="background: var(--bg-warm);">
-    <div class="feature-row">
+    <div class="feature-row reveal">
       <div class="feature-text">
         <div class="label">沉浸阅读</div>
         <h3>双页对开，翻页如读书</h3>
@@ -413,7 +505,7 @@
 
   <!-- FEATURE SHOWCASE 3: 笔记 -->
   <section>
-    <div class="feature-row reverse">
+    <div class="feature-row reverse reveal">
       <div class="feature-text">
         <div class="label">思考笔记</div>
         <h3>跨文献引用，串联你的思考</h3>
@@ -433,7 +525,7 @@
 
   <!-- DARK MODE SHOWCASE -->
   <section style="background: var(--bg-warm);">
-    <div class="feature-row">
+    <div class="feature-row reveal">
       <div class="feature-text">
         <div class="label">暗色模式</div>
         <h3>深夜阅读，温柔护眼</h3>
@@ -447,11 +539,11 @@
 
   <!-- FEATURE GRID: More features -->
   <section>
-    <div class="section-header">
+    <div class="section-header reveal">
       <div class="label">更多功能</div>
       <h2>每一个细节都经过打磨</h2>
     </div>
-    <div class="feature-grid">
+    <div class="feature-grid reveal">
       <div class="feature-card">
         <div class="icon">&#128214;</div>
         <h4>多格式支持</h4>
@@ -487,7 +579,7 @@
 
   <!-- AI SECTION (DARK) -->
   <section class="dark-section" id="ai">
-    <div class="section-header">
+    <div class="section-header reveal">
       <div class="label">AI 能力</div>
       <h2>接入全球主流 AI 模型</h2>
       <p>自由选择你信任的 AI，一键切换。所有调用使用你自己的 API Key。</p>
@@ -507,7 +599,7 @@
 
   <!-- DOWNLOAD -->
   <section class="download-section" id="download">
-    <div class="section-header">
+    <div class="section-header reveal">
       <div class="label">下载</div>
       <h2>免费使用，解压即用</h2>
       <p>你的数据只存在你的电脑上</p>
@@ -527,7 +619,7 @@
 
   <!-- DONATE -->
   <section class="donate-section" id="donate">
-    <div class="section-header">
+    <div class="section-header reveal">
       <h2>支持拾卷</h2>
       <p>如果拾卷对你的学习和研究有帮助，欢迎请作者喝杯咖啡</p>
     </div>
@@ -555,5 +647,16 @@
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   </footer>
 
+  <script>
+    // Scroll reveal observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
