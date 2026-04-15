@@ -66,8 +66,26 @@
 
     /* ===== HERO ===== */
     .hero {
-      padding: 120px 32px 40px; text-align: center;
+      padding: 140px 32px 80px; text-align: center;
       max-width: 860px; margin: 0 auto;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .hero-divider {
+      width: 100%; padding: 0 32px; overflow: hidden;
+    }
+    .hero-divider-inner {
+      max-width: 600px; margin: 0 auto;
+      display: flex; align-items: center; gap: 20px;
+    }
+    .hero-divider-inner::before,
+    .hero-divider-inner::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .hero-divider-inner span {
+      font-size: 11px; color: var(--text-muted); letter-spacing: 3px;
+      text-transform: uppercase; white-space: nowrap;
     }
     .hero-badge {
       display: inline-block; padding: 5px 16px;
@@ -324,6 +342,13 @@
       </a>
     </div>
   </section>
+
+  <!-- HERO → FEATURES DIVIDER -->
+  <div class="hero-divider">
+    <div class="hero-divider-inner">
+      <span>探索功能</span>
+    </div>
+  </div>
 
   <!-- FEATURE SHOWCASE 1: 阅读 + 注释 -->
   <section id="features">
