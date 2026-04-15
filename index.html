@@ -3,390 +3,526 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>拾卷 - 智能文献管理与阅读笔记工具</title>
+  <title>拾卷 ShiJuan - 智能文献管理与深度阅读工具</title>
+  <meta name="description" content="拾卷是一款本地优先的智能文献管理工具，集阅读、OCR、注释、AI 对话、跨文献笔记于一体。">
+  <link rel="icon" href="icon.png" type="image/png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #FFFDF7;
       --bg-warm: #FBF8F1;
+      --bg-dark: #2A2520;
+      --bg-dark-card: #36302A;
       --accent: #C8956C;
       --accent-hover: #B5825A;
+      --accent-soft: rgba(200,149,108,0.12);
       --text: #3D3529;
       --text-secondary: #6B5E4F;
       --text-muted: #A89B8C;
       --border: #E8E0D0;
+      --radius: 16px;
     }
 
+    html { scroll-behavior: smooth; }
     body {
-      font-family: -apple-system, "Microsoft YaHei", "PingFang SC", sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.8;
+      font-family: -apple-system, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+      color: var(--text); background: var(--bg); line-height: 1.8;
+      overflow-x: hidden;
     }
 
     /* ===== NAV ===== */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255,253,247,0.9);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 40px;
-      height: 60px;
+      background: rgba(255,253,247,0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(232,224,208,0.6);
+      height: 56px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-inner {
+      width: 100%; max-width: 1200px; padding: 0 32px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    nav .logo {
-      font-size: 20px; font-weight: 700; color: var(--accent);
-      letter-spacing: 2px;
+    .nav-logo {
+      font-size: 18px; font-weight: 700; color: var(--accent);
+      letter-spacing: 2px; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
     }
-    nav .logo span { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-left: 8px; letter-spacing: 0; }
-    nav .nav-links { display: flex; gap: 28px; }
-    nav .nav-links a {
+    .nav-logo img { width: 24px; height: 24px; border-radius: 4px; }
+    .nav-logo span { font-size: 11px; color: var(--text-muted); font-weight: 400; letter-spacing: 0; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
       text-decoration: none; color: var(--text-secondary); font-size: 14px;
-      transition: color 0.2s;
+      transition: color 0.2s; font-weight: 400;
     }
-    nav .nav-links a:hover { color: var(--accent); }
-    .btn-download {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 24px; background: var(--accent); color: #fff;
-      border: none; border-radius: 8px; font-size: 14px; font-weight: 500;
-      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      padding: 7px 20px; background: var(--accent); color: #fff;
+      border-radius: 8px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: all 0.2s;
     }
-    .btn-download:hover { background: var(--accent-hover); transform: translateY(-1px); }
-    .btn-download-outline {
-      padding: 10px 24px; background: transparent; color: var(--accent);
-      border: 2px solid var(--accent); border-radius: 8px; font-size: 14px;
-      font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s;
-    }
-    .btn-download-outline:hover { background: var(--accent); color: #fff; }
+    .nav-cta:hover { background: var(--accent-hover); }
 
     /* ===== HERO ===== */
     .hero {
-      padding: 140px 40px 80px;
-      text-align: center;
-      max-width: 900px; margin: 0 auto;
+      padding: 120px 32px 40px; text-align: center;
+      max-width: 860px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block; padding: 5px 16px;
+      background: var(--accent-soft); border-radius: 20px;
+      font-size: 13px; color: var(--accent); font-weight: 500;
+      margin-bottom: 24px;
     }
     .hero h1 {
-      font-size: 52px; font-weight: 800; line-height: 1.3;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      font-size: 56px; font-weight: 800; line-height: 1.2;
+      margin-bottom: 20px; letter-spacing: -1px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent) 0%, #D4A070 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero p {
       font-size: 18px; color: var(--text-secondary);
-      max-width: 600px; margin: 0 auto 36px; line-height: 1.9;
+      max-width: 540px; margin: 0 auto 32px; line-height: 1.9;
     }
-    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .hero-badge {
-      display: inline-block; padding: 4px 12px; background: rgba(200,149,108,0.12);
-      border-radius: 20px; font-size: 12px; color: var(--accent); font-weight: 500;
-      margin-bottom: 20px;
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--accent); color: #fff;
+      border: none; border-radius: 10px; font-size: 15px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
     }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(200,149,108,0.3); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: transparent; color: var(--text-secondary);
+      border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px;
+      font-weight: 500; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ===== SCREENSHOT ===== */
-    .screenshot {
-      max-width: 1000px; margin: 0 auto 80px; padding: 0 40px;
+    /* Hero screenshot */
+    .hero-screenshot {
+      max-width: 1100px; margin: 48px auto 0; padding: 0 32px;
     }
     .screenshot-frame {
-      background: var(--bg-warm);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 8px;
-      box-shadow: 0 20px 60px rgba(60,50,35,0.12);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: 0 24px 80px rgba(60,50,35,0.15), 0 0 0 1px rgba(232,224,208,0.5);
     }
-    .screenshot-frame img {
-      width: 100%; border-radius: 8px; display: block;
-    }
-    .screenshot-placeholder {
-      width: 100%; height: 500px; border-radius: 8px;
-      background: linear-gradient(135deg, #F7F3EA 0%, #EDE4D3 100%);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); font-size: 16px;
-    }
+    .screenshot-frame img { width: 100%; display: block; }
 
-    /* ===== FEATURES ===== */
-    .features {
-      padding: 80px 40px;
-      max-width: 1100px; margin: 0 auto;
+    /* ===== SECTION LAYOUT ===== */
+    section { padding: 100px 32px; }
+    .section-header {
+      text-align: center; max-width: 600px; margin: 0 auto 64px;
     }
-    .features h2 {
-      text-align: center; font-size: 36px; font-weight: 700;
+    .section-header .label {
+      display: inline-block; font-size: 13px; font-weight: 600;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 2px;
       margin-bottom: 12px;
     }
-    .features .subtitle {
-      text-align: center; font-size: 16px; color: var(--text-muted);
-      margin-bottom: 60px;
+    .section-header h2 {
+      font-size: 40px; font-weight: 700; line-height: 1.3; margin-bottom: 12px;
     }
+    .section-header p {
+      font-size: 16px; color: var(--text-muted); line-height: 1.8;
+    }
+
+    /* ===== FEATURE SHOWCASE (alternating) ===== */
+    .feature-row {
+      display: flex; align-items: center; gap: 64px;
+      max-width: 1100px; margin: 0 auto 80px;
+    }
+    .feature-row.reverse { flex-direction: row-reverse; }
+    .feature-text { flex: 1; min-width: 0; }
+    .feature-text .label {
+      font-size: 12px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .feature-text h3 {
+      font-size: 28px; font-weight: 700; margin-bottom: 14px; line-height: 1.3;
+    }
+    .feature-text p {
+      font-size: 15px; color: var(--text-secondary); line-height: 1.9;
+      margin-bottom: 10px;
+    }
+    .feature-text ul {
+      list-style: none; padding: 0; margin-top: 16px;
+    }
+    .feature-text ul li {
+      font-size: 14px; color: var(--text-secondary); padding: 4px 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .feature-text ul li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .feature-screenshot {
+      flex: 1.2; min-width: 0;
+    }
+    .feature-screenshot img {
+      width: 100%; border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(60,50,35,0.1), 0 0 0 1px rgba(232,224,208,0.5);
+    }
+    .feature-screenshot .placeholder {
+      aspect-ratio: 16/10; border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--bg-warm), #EDE4D3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 14px;
+      border: 1px solid var(--border);
+    }
+
+    /* ===== FEATURE GRID (small cards) ===== */
     .feature-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+      max-width: 1000px; margin: 0 auto;
     }
     .feature-card {
-      padding: 32px 24px; border-radius: 12px;
+      padding: 28px 24px; border-radius: 12px;
       background: var(--bg-warm); border: 1px solid var(--border);
       transition: all 0.3s;
     }
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(60,50,35,0.08);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(60,50,35,0.08);
     }
-    .feature-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: rgba(200,149,108,0.15);
+    .feature-card .icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-soft);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 16px;
+      font-size: 20px; margin-bottom: 14px;
     }
-    .feature-card h3 {
-      font-size: 17px; font-weight: 600; margin-bottom: 8px;
-    }
-    .feature-card p {
-      font-size: 13px; color: var(--text-secondary); line-height: 1.8;
-    }
+    .feature-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .feature-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
 
-    /* ===== AI SECTION ===== */
-    .ai-section {
-      padding: 80px 40px;
-      background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
+    /* ===== DARK SECTION (AI) ===== */
+    .dark-section {
+      background: var(--bg-dark); color: #E8E0D0;
+      padding: 100px 32px;
     }
-    .ai-section .inner {
-      max-width: 900px; margin: 0 auto; text-align: center;
-    }
-    .ai-section h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
-    .ai-section .subtitle { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; }
-    .ai-providers {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-      margin-bottom: 40px;
+    .dark-section .section-header h2 { color: #F0EBE0; }
+    .dark-section .section-header p { color: #9B9080; }
+    .dark-section .section-header .label { color: var(--accent); }
+    .ai-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      max-width: 640px; margin: 0 auto 32px;
     }
     .ai-tag {
-      padding: 8px 12px; border-radius: 20px; font-size: 13px;
-      background: #fff; border: 1px solid var(--border); color: var(--text-secondary);
-      font-weight: 500; text-align: center;
+      padding: 10px 12px; border-radius: 10px; font-size: 13px;
+      background: var(--bg-dark-card); border: 1px solid rgba(200,149,108,0.2);
+      color: #C8B8A0; font-weight: 500; text-align: center;
+      transition: all 0.2s;
     }
-
-    /* ===== FORMATS ===== */
-    .formats {
-      padding: 60px 40px;
-      max-width: 800px; margin: 0 auto; text-align: center;
-    }
-    .formats h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
-    .format-list {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-      margin-top: 20px;
-    }
-    .format-badge {
-      padding: 10px 20px; border-radius: 8px;
-      background: var(--bg-warm); border: 1px solid var(--border);
-      font-size: 14px; font-weight: 600; color: var(--text-secondary);
+    .ai-tag:hover { border-color: var(--accent); color: var(--accent); }
+    .ai-note {
+      text-align: center; font-size: 13px; color: #7A7060;
+      max-width: 400px; margin: 0 auto;
     }
 
     /* ===== DOWNLOAD ===== */
-    .download {
-      padding: 80px 40px;
-      text-align: center;
-    }
-    .download h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
-    .download .subtitle { font-size: 16px; color: var(--text-muted); margin-bottom: 32px; }
+    .download-section { background: var(--bg-warm); }
     .download-cards {
-      display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
-      margin-bottom: 20px;
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+      max-width: 700px; margin: 0 auto 24px;
     }
     .download-card {
-      padding: 24px 32px; border-radius: 12px;
-      background: var(--bg-warm); border: 1px solid var(--border);
-      text-align: center; min-width: 200px;
+      flex: 1; min-width: 260px; max-width: 320px;
+      padding: 32px 28px; border-radius: var(--radius);
+      background: var(--bg); border: 1px solid var(--border);
+      text-align: center;
     }
-    .download-card h4 { font-size: 15px; margin-bottom: 4px; }
-    .download-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
-    .version-info { font-size: 12px; color: var(--text-muted); margin-top: 16px; }
+    .download-card h4 { font-size: 16px; margin-bottom: 4px; }
+    .download-card .desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+    .download-card .btn-primary { width: 100%; justify-content: center; }
+    .version-note {
+      text-align: center; font-size: 12px; color: var(--text-muted);
+    }
 
     /* ===== DONATE ===== */
-    .donate {
-      padding: 80px 40px;
-      background: var(--bg-warm);
-      text-align: center;
-    }
-    .donate h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-    .donate .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; }
+    .donate-section { text-align: center; }
     .donate-qr {
-      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
     }
-    .donate-item {
-      text-align: center;
-    }
-    .donate-item .qr-placeholder {
-      width: 180px; height: 180px; border-radius: 12px;
-      background: #fff; border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); font-size: 13px;
+    .donate-item { text-align: center; }
+    .donate-item img {
+      width: 160px; height: 160px; border-radius: 12px;
+      border: 1px solid var(--border); object-fit: cover;
       margin-bottom: 8px;
-    }
-    .donate-item .qr-placeholder img {
-      width: 100%; height: 100%; border-radius: 12px; object-fit: cover;
     }
     .donate-item label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
 
     /* ===== FOOTER ===== */
     footer {
-      padding: 40px;
-      text-align: center;
+      padding: 40px 32px; text-align: center;
       border-top: 1px solid var(--border);
       font-size: 13px; color: var(--text-muted);
     }
     footer a { color: var(--accent); text-decoration: none; }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 32px; }
-      .feature-grid { grid-template-columns: 1fr; }
-      nav { padding: 0 20px; }
-      nav .nav-links { display: none; }
-      .hero, .features, .download, .donate { padding: 60px 20px; }
+    @media (max-width: 900px) {
+      .feature-row, .feature-row.reverse { flex-direction: column; gap: 32px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .ai-grid { grid-template-columns: repeat(2, 1fr); }
     }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 36px; }
+      .hero p { font-size: 16px; }
+      section { padding: 64px 20px; }
+      .section-header h2 { font-size: 28px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .feature-text h3 { font-size: 22px; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+    .hero { animation: fadeUp 0.8s ease-out; }
+    .hero-screenshot { animation: fadeUp 1s ease-out 0.2s both; }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
   <nav>
-    <div class="logo">拾卷<span>ShiJuan</span></div>
-    <div class="nav-links">
-      <a href="#features">功能</a>
-      <a href="#ai">AI 能力</a>
-      <a href="#download">下载</a>
-      <a href="#donate">支持</a>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="icon.png" alt="拾卷">
+        拾卷 <span>ShiJuan</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">功能</a>
+        <a href="#immersive">沉浸阅读</a>
+        <a href="#ai">AI 能力</a>
+        <a href="#download">下载</a>
+        <a href="#donate" class="nav-cta">支持我们</a>
+      </div>
     </div>
-    <a href="#download" class="btn-download" style="padding: 8px 18px; font-size: 13px;">免费下载</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge">v1.2.4 全新发布 -- 阅读日志 / AI 流式输出 / 笔记文件夹</div>
-    <h1>拾起每一卷<br>深度阅读的思考</h1>
-    <p>拾卷是一款本地优先的智能文献管理工具<br>阅读、OCR、注释、AI 对话、跨文献思考笔记，整合在一个温暖的界面中</p>
-    <div class="hero-buttons">
-      <a href="#download" class="btn-download">
+    <div class="hero-badge">v1.2.6 · 沉浸双页阅读 / 暗色模式 / Hermes Agent</div>
+    <h1>拾起每一卷<br>成为你的<em>深度阅读</em>伙伴</h1>
+    <p>本地优先的智能文献管理工具。阅读、OCR、注释、AI 对话、跨文献笔记，整合在一个温暖的界面中。</p>
+    <div class="hero-actions">
+      <a href="#download" class="btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Windows 免费下载
+        免费下载
       </a>
-      <!-- GitHub 源码按钮已移除 -->
+      <a href="https://github.com/lickswan-lab/shijuan" class="btn-secondary" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
     </div>
   </section>
 
-  <!-- SCREENSHOT removed -->
+  <!-- HERO SCREENSHOT -->
+  <div class="hero-screenshot">
+    <div class="screenshot-frame">
+      <img src="screenshot.png" alt="拾卷应用截图" id="hero-img">
+    </div>
+  </div>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <h2>为深度阅读而生</h2>
-    <p class="subtitle">不只是管理文献，更是构建你的知识体系</p>
+  <!-- FEATURE SHOWCASE 1: 阅读 + 注释 -->
+  <section id="features">
+    <div class="section-header">
+      <div class="label">核心功能</div>
+      <h2>为深度阅读而生</h2>
+      <p>不只是管理文献，更是构建你的知识体系</p>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-text">
+        <div class="label">阅读 · 注释</div>
+        <h3>选中即注释，思考不中断</h3>
+        <p>选中任意文字，即刻写下笔记、向 AI 提问，或高亮划线。所有思考记录形成历史链，任何一次灵感都不会丢失。</p>
+        <ul>
+          <li>注释历史链——同一段文字的多轮对话完整保留</li>
+          <li>6 色高亮 + 划线标注</li>
+          <li>AI 即时反馈——保存笔记后自动触发 AI 评论</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <img src="screenshot.png" alt="拾卷注释面板" id="shot-annotation">
+      </div>
+    </div>
+
+    <div class="feature-row reverse">
+      <div class="feature-text">
+        <div class="label">OCR 识别</div>
+        <h3>扫描版 PDF 也能深度阅读</h3>
+        <p>一键将扫描版 PDF 转为可搜索、可注释的文字。基于智谱 GLM-OCR，数学公式、表格、多栏排版都能准确识别。</p>
+        <ul>
+          <li>识别后自动进入 OCR 文本视图</li>
+          <li>支持 LaTeX 数学公式渲染</li>
+          <li>可编辑、可导出识别结果</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <img src="shot-ocr.png" alt="OCR 阅读" id="shot-ocr">
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE SHOWCASE 2: 沉浸阅读 -->
+  <section id="immersive" style="background: var(--bg-warm);">
+    <div class="feature-row">
+      <div class="feature-text">
+        <div class="label">沉浸阅读</div>
+        <h3>双页对开，翻页如读书</h3>
+        <p>进入沉浸模式，界面退到幕后，只剩文字与思考。双页对开排版，方向键翻页，选中文字弹出浮动注释框——真正的数字阅读体验。</p>
+        <ul>
+          <li>PDF / OCR / TXT / DOCX 全格式沉浸支持</li>
+          <li>双页制可关闭——切换为单页全屏+侧栏注释</li>
+          <li>暗色模式——深夜阅读不伤眼</li>
+          <li>退出时自动定位到阅读位置</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <img src="shot-immersive.png" alt="沉浸双页阅读" id="shot-immersive">
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE SHOWCASE 3: 笔记 -->
+  <section>
+    <div class="feature-row reverse">
+      <div class="feature-text">
+        <div class="label">思考笔记</div>
+        <h3>跨文献引用，串联你的思考</h3>
+        <p>打破文献之间的隔阂。从任意文献的注释中拖拽引用块到笔记，用 #编号 语法互相关联，形成你独有的知识网络。</p>
+        <ul>
+          <li>Markdown 即时渲染编辑</li>
+          <li>引用块拖入——从注释面板直接拖拽</li>
+          <li>文件夹管理——分类整理你的思考</li>
+          <li>导出 .md / .html / .txt</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <img src="shot-memo.png" alt="思考笔记" id="shot-memo">
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE GRID: More features -->
+  <section style="background: var(--bg-warm);">
+    <div class="section-header">
+      <div class="label">更多功能</div>
+      <h2>每一个细节都经过打磨</h2>
+    </div>
     <div class="feature-grid">
       <div class="feature-card">
-        <div class="feature-icon">&#128214;</div>
-        <h3>多格式支持</h3>
-        <p>PDF、HTML、EPUB、DOCX、TXT、Markdown —— 一个工具管理所有格式的文献和笔记。</p>
+        <div class="icon">&#128214;</div>
+        <h4>多格式支持</h4>
+        <p>PDF、HTML、EPUB、DOCX、TXT、Markdown——一个工具管理所有格式。</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">&#128269;</div>
-        <h3>GLM OCR 识别</h3>
-        <p>一键将扫描版 PDF 转为可搜索、可注释的文字。基于智谱 GLM-OCR，识别准确率极高。</p>
+        <div class="icon">&#128197;</div>
+        <h4>阅读日志</h4>
+        <p>自动记录每天的阅读活动。时间线回顾 + AI 每日总结，看见你的成长。</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">&#128221;</div>
-        <h3>历史链注释</h3>
-        <p>选中文字即可注释、提问、对话。所有思考记录形成历史链，不丢失任何灵感。</p>
+        <div class="icon">&#127763;</div>
+        <h4>暗色模式</h4>
+        <p>全局暗色主题，阅读背景色自由调节。深夜阅读也舒适。</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">&#129302;</div>
-        <h3>多模型 AI 对话</h3>
-        <p>支持 7 家 AI 供应商、30+ 模型。在阅读中随时向 AI 提问，获得即时解读和反馈。</p>
+        <div class="icon">&#128274;</div>
+        <h4>本地优先</h4>
+        <p>所有数据存储在你的电脑上，不上传云端。你的知识，只属于你。</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">&#128279;</div>
-        <h3>跨文献引用</h3>
-        <p>打破文献之间的隔阂。在注释面板中查看所有文献的注释，拖拽引用到思考笔记。</p>
+        <div class="icon">&#128200;</div>
+        <h4>KaTeX 公式</h4>
+        <p>完整的 LaTeX 数学公式渲染。OCR 识别结果中的公式也能正确显示。</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">&#128209;</div>
-        <h3>思考笔记</h3>
-        <p>Markdown 即时渲染编辑器。引用块拖入、#编号引用、导出 .md/.html/.txt。</p>
+        <div class="icon">&#128640;</div>
+        <h4>轻量快速</h4>
+        <p>解压即用，无需安装。启动快、占用低，不给你的电脑添负担。</p>
       </div>
     </div>
   </section>
 
-  <!-- AI -->
-  <section class="ai-section" id="ai">
-    <div class="inner">
-      <h2>接入全球主流 AI</h2>
-      <p class="subtitle">自由选择你信任的 AI 模型，一键切换</p>
-      <div class="ai-providers" style="max-width: 600px; margin: 0 auto 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-        <span class="ai-tag">智谱 GLM-5.1</span>
-        <span class="ai-tag">OpenAI GPT-5.4</span>
-        <span class="ai-tag">Claude Opus 4.6</span>
-        <span class="ai-tag">Gemini 3.1</span>
-        <span class="ai-tag">Kimi K2.5</span>
-        <span class="ai-tag">DeepSeek V3.2</span>
-        <span class="ai-tag">豆包 2.0</span>
-        <span class="ai-tag">更多接入中</span>
+  <!-- DARK MODE SHOWCASE -->
+  <section>
+    <div class="feature-row">
+      <div class="feature-text">
+        <div class="label">暗色模式</div>
+        <h3>深夜阅读，温柔护眼</h3>
+        <p>一键切换全局暗色主题，阅读区背景色可自由调节色温和亮度。从午后到深夜，找到最舒适的阅读氛围。</p>
       </div>
-      <p style="font-size: 13px; color: var(--text-muted);">所有 AI 调用使用你自己的 API Key，数据不经过第三方服务器。</p>
+      <div class="feature-screenshot">
+        <img src="shot-dark.png" alt="暗色模式" id="shot-dark">
+      </div>
     </div>
   </section>
 
-  <!-- FORMATS -->
-  <section class="formats">
-    <h2>支持的文件格式</h2>
-    <div class="format-list" style="max-width: 500px; margin: 20px auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-      <span class="format-badge">PDF</span>
-      <span class="format-badge">HTML</span>
-      <span class="format-badge">EPUB</span>
-      <span class="format-badge">DOCX</span>
-      <span class="format-badge">DOC</span>
-      <span class="format-badge">TXT</span>
-      <span class="format-badge">Markdown</span>
-      <span class="format-badge">更多格式</span>
+  <!-- AI SECTION (DARK) -->
+  <section class="dark-section" id="ai">
+    <div class="section-header">
+      <div class="label">AI 能力</div>
+      <h2>接入全球主流 AI 模型</h2>
+      <p>自由选择你信任的 AI，一键切换。所有调用使用你自己的 API Key。</p>
     </div>
+    <div class="ai-grid">
+      <span class="ai-tag">智谱 GLM-5.1</span>
+      <span class="ai-tag">OpenAI GPT-5.4</span>
+      <span class="ai-tag">Claude Opus 4.6</span>
+      <span class="ai-tag">Gemini 3.1</span>
+      <span class="ai-tag">Kimi K2.5</span>
+      <span class="ai-tag">DeepSeek V3.2</span>
+      <span class="ai-tag">豆包 2.0</span>
+      <span class="ai-tag">更多接入中…</span>
+    </div>
+    <p class="ai-note">数据不经过第三方服务器。AI 回复自动保存到注释历史链中。</p>
   </section>
 
   <!-- DOWNLOAD -->
-  <section class="download" id="download">
-    <h2>免费下载</h2>
-    <p class="subtitle">本地优先，你的数据只存在你的电脑上</p>
+  <section class="download-section" id="download">
+    <div class="section-header">
+      <div class="label">下载</div>
+      <h2>免费使用，解压即用</h2>
+      <p>你的数据只存在你的电脑上</p>
+    </div>
     <div class="download-cards">
       <div class="download-card">
-        <h4>Windows 免费下载</h4>
-        <p>支持 Windows 10/11 64位</p>
-        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.2.4/shijuan-v1.2.4-win-x64.zip" class="btn-download" style="font-size: 14px; padding: 10px 28px;">
+        <h4>Windows 完整版</h4>
+        <p class="desc">支持 Windows 10/11 64位</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/latest" class="btn-primary" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载 v1.2.4 (.zip)
+          下载 v1.2.6
         </a>
       </div>
-      <div class="download-card" style="background: var(--bg); border-style: dashed;">
-        <h4>v1.2.4 补丁包</h4>
-        <p>已安装 v1.2.0+ 的用户</p>
-        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.2.4/shijuan-v1.2.4-patch.zip" class="btn-download-outline" style="font-size: 13px; padding: 8px 22px;">
-          下载补丁 (66MB, v1.2.0+通用)
+      <div class="download-card" style="border-style: dashed;">
+        <h4>macOS 版本</h4>
+        <p class="desc">Intel / Apple Silicon</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/latest" class="btn-secondary" target="_blank" style="width:100%;justify-content:center;">
+          前往 GitHub Release
         </a>
       </div>
     </div>
-    <p class="version-info">当前版本 v1.2.4 · 支持 Windows 10/11 64位 · 解压即用</p>
-    <details style="max-width: 480px; margin: 16px auto 0; text-align: left;">
-      <summary style="cursor: pointer; font-size: 13px; color: var(--accent); font-weight: 500;">补丁更新方法</summary>
-      <div style="padding: 12px 0; font-size: 12px; color: var(--text-secondary); line-height: 2;">
-        适用于已安装 v1.2.0 及以上完整版的用户（v1.0.0 用户请下载完整版）：<br><br>
-        1. 下载补丁包 shijuan-v1.2.4-patch.zip<br>
-        2. 解压得到 app.asar 文件<br>
-        3. 关闭拾卷，将 app.asar 复制到安装目录的 resources 文件夹中替换同名文件<br>
-        4. 重新打开拾卷即可
-      </div>
-    </details>
+    <p class="version-note">当前版本 v1.2.6 · 免费 · 开源</p>
   </section>
 
   <!-- DONATE -->
-  <section class="donate" id="donate">
-    <h2>支持拾卷</h2>
-    <p class="subtitle">如果拾卷对你的学习和研究有帮助，欢迎请作者喝杯咖啡</p>
+  <section class="donate-section" id="donate">
+    <div class="section-header">
+      <h2>支持拾卷</h2>
+      <p>如果拾卷对你的学习和研究有帮助，欢迎请作者喝杯咖啡</p>
+    </div>
     <div class="donate-qr">
       <div class="donate-item">
-        <div class="qr-placeholder"><img src="wechat.jpg" alt="微信收款码" /></div>
+        <img src="wechat.jpg" alt="微信收款码">
         <label>微信扫码</label>
+      </div>
+      <div class="donate-item">
+        <img src="alipay.jpg" alt="支付宝收款码">
+        <label>支付宝扫码</label>
       </div>
     </div>
   </section>
@@ -396,6 +532,8 @@
     <p>拾卷 ShiJuan &copy; 2026 · 本地优先的智能文献管理工具</p>
     <p style="margin-top: 6px;">
       <a href="https://easyessay.com.cn">easyessay.com.cn</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/lickswan-lab/shijuan" target="_blank">GitHub</a>
     </p>
     <p style="margin-top: 8px; font-size: 12px;">
       <span id="busuanzi_container_site_pv">总访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
