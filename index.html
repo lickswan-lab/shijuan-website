@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>拾卷 ShiJuan - 智能文献管理与深度阅读工具</title>
-  <meta name="description" content="拾卷是一款本地优先的智能文献管理工具，集阅读、OCR、注释、AI 对话、跨文献笔记于一体。">
+  <title>拾卷 ShiJuan - 智能文献管理 / AI 深度阅读 / 召唤历史名人</title>
+  <meta name="description" content="拾卷是本地优先的智能文献管理工具：阅读、OCR、注释、AI 对话、跨文献笔记、召唤历史名人对话（每句话能溯源到原文段落）。v1.3.0-beta 现已发布。">
   <link rel="icon" href="icon.png" type="image/png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -405,9 +405,9 @@
       </a>
       <div class="nav-links">
         <a href="#features">功能</a>
-        <!-- <a href="#immersive">沉浸阅读</a> -->
         <a href="#ai">AI 能力</a>
         <a href="#download">下载</a>
+        <a href="https://github.com/lickswan-lab/shijuan/blob/master/DEVLOG.md" target="_blank">日志</a>
         <a href="#donate" class="nav-cta">支持我们</a>
       </div>
     </div>
@@ -420,9 +420,9 @@
       <div class="orb orb-2"></div>
       <div class="orb orb-3"></div>
     </div>
-    <div class="hero-badge">v1.2.6 · 启动更快 / 自动更新 / 多模型 AI 对话</div>
-    <h1>拾起每一卷<br>成为你的<em>深度阅读</em>伙伴</h1>
-    <p>本地优先的智能文献管理工具<br>阅读、OCR、注释、AI 对话、跨文献笔记<br>整合在一个温暖的界面中</p>
+    <div class="hero-badge">v1.3.0-beta · 召唤历史名人 / AI 深度搜索 / 引用核验</div>
+    <h1>拾起每一卷<br>把读过的书变成<em>对话伙伴</em></h1>
+    <p>本地优先的智能文献管理工具<br>阅读 · OCR · 注释 · 跨文献笔记 · 召唤历史名人对话<br>每一句 AI 回答都能溯源到你导入的原文</p>
     <div class="hero-actions">
       <a href="#download" class="btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -484,6 +484,68 @@
   </section>
 
   <!-- FEATURE SHOWCASE 2: 沉浸阅读 — hidden, feature in development -->
+
+  <!-- FEATURE SHOWCASE: 召唤 (NEW in v1.3.0-beta) -->
+  <section style="background: var(--bg-warm);">
+    <div class="section-header reveal">
+      <div class="label" style="background: var(--accent); color: #fff; padding: 3px 12px; border-radius: 12px; letter-spacing: 1px;">v1.3.0-beta 新增</div>
+      <h2>召唤 · 把作者炼成可对话的 AI</h2>
+      <p>不是模拟语气，是基于真实原文的回答 — 每句话都能溯源</p>
+    </div>
+
+    <div class="feature-row reveal">
+      <div class="feature-text">
+        <div class="label">Persona 蒸馏</div>
+        <h3>从「读完一本书」到「和作者对话」</h3>
+        <p>给一个名字（"黑格尔"、"涂尔干"、"福柯"），拾卷会自动从 7 个权威源（中英维基、Archive.org、Project Gutenberg、智谱 web-search-pro 等）搜资料、抓全文、按维度蒸馏出一个可对话的 AI 角色。</p>
+        <ul>
+          <li>7 源并行搜索 + 全文抓取（GLM web-search-pro 补齐中文长尾）</li>
+          <li>6+ 维度蒸馏：核心思想 / 时代背景 / 世界观 / 语言风格 / 重要决断</li>
+          <li>拟合度评分：AI 自评每个维度，提示你哪里资料不够</li>
+          <li>本地优先：所有资料和角色档案存在你电脑上</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <div class="placeholder">召唤面板截图（即将更新）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE SHOWCASE: AI 深度搜索 + 引用核验 (NEW in v1.3.0-beta) -->
+  <section>
+    <div class="feature-row reverse reveal">
+      <div class="feature-text">
+        <div class="label" style="background: var(--accent-soft); color: var(--accent); padding: 3px 10px; border-radius: 10px; display: inline-block;">v1.3.0-beta 新增</div>
+        <h3 style="margin-top: 12px;">AI 深度搜索 — AI 自己决定查什么、查几轮</h3>
+        <p>参考 dzhng/deep-research 的递归减半 + STORM 的 Question→Query 两层模板。点一下「AI 深度搜索」，AI 会自己拆解问题、生成查询、迭代调研，2 轮后自动收敛。你只需要看进度条。</p>
+        <ul>
+          <li>自动 Q→Q 两层拆解，breadth 6→3 递归减半</li>
+          <li>URL 去重 + 零增长提前退出</li>
+          <li>全程可中止，进度实时显示</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <div class="placeholder">AI 深度搜索进度截图（即将更新）</div>
+      </div>
+    </div>
+
+    <div class="feature-row reveal" style="margin-top: 80px;">
+      <div class="feature-text">
+        <div class="label" style="background: var(--accent-soft); color: var(--accent); padding: 3px 10px; border-radius: 10px; display: inline-block;">v1.3.0-beta 新增</div>
+        <h3 style="margin-top: 12px;">引用核验 — 伪造编号会被红框标记</h3>
+        <p>召唤角色每次回答都要带 <code style="background: var(--bg-warm); padding: 1px 6px; border-radius: 4px; font-size: 13px;">[资料 N]</code> 标注。前端正则匹配脏变体（<code style="background: var(--bg-warm); padding: 1px 6px; border-radius: 4px; font-size: 13px;">[资料1]</code> / <code style="background: var(--bg-warm); padding: 1px 6px; border-radius: 4px; font-size: 13px;">【资料 1】</code> / <code style="background: var(--bg-warm); padding: 1px 6px; border-radius: 4px; font-size: 13px;">[资料 1, 2]</code> 都识别），反向解析回原 chunk，超出范围的标红警告。</p>
+        <ul>
+          <li>每条 user 消息显示 BM25 检索 top-K badge</li>
+          <li>每条 assistant 消息下方挂「📚 引用核验」卡片</li>
+          <li>资料池为空时注入 STORM 风格"禁止编造"硬约束</li>
+          <li>Hallucination = 红框，真实引用 = 绿色卡片</li>
+        </ul>
+      </div>
+      <div class="feature-screenshot">
+        <div class="placeholder">引用核验卡片截图（即将更新）</div>
+      </div>
+    </div>
+  </section>
 
   <!-- FEATURE SHOWCASE 3: 笔记 -->
   <section style="background: var(--bg-warm);">
@@ -551,10 +613,20 @@
         <h4>轻量快速</h4>
         <p>解压即用，无需安装。启动快、占用低，不给你的电脑添负担。</p>
       </div>
+      <div class="feature-card">
+        <div class="icon">&#129302;</div>
+        <h4>Hermes 学徒日记</h4>
+        <p>AI 作为每周观察者，整理你最近读了什么 + 提出未解决的问题。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128269;</div>
+        <h4>主进程节流</h4>
+        <p>GLM 等 API 自动按整分钟边界排队，撞墙后自适应 ×2，不炸配额。</p>
+      </div>
       <div class="feature-card" style="border-style: dashed; display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <div class="icon" style="background: transparent;">&#10024;</div>
-        <h4 style="color: var(--text-muted);">更多功能，敬请期待</h4>
-        <p>Hermes AI 助手、全文搜索、快捷键系统……正在开发中。</p>
+        <h4 style="color: var(--text-muted);">更多功能持续打磨中</h4>
+        <p>召唤对话稳定后开放 · 沉浸阅读模式 · 快捷键系统……</p>
       </div>
     </div>
   </section>
@@ -577,26 +649,51 @@
       <span class="ai-tag">更多接入中…</span>
     </div>
     <p class="ai-note">数据不经过第三方服务器。AI 回复自动保存到注释历史链中。</p>
+    <p class="ai-note" style="margin-top: 16px;">
+      <a href="https://github.com/lickswan-lab/shijuan#api-key-获取指南" target="_blank" style="color: var(--accent); text-decoration: none;">→ 不知道在哪儿弄 API key？看这里</a>
+    </p>
   </section>
 
   <!-- DOWNLOAD -->
   <section class="download-section" id="download">
     <div class="section-header reveal">
-      <div class="label">下载</div>
-      <h2>免费使用，解压即用</h2>
-      <p>你的数据只存在你的电脑上</p>
+      <div class="label">下载 v1.3.0-beta</div>
+      <h2>免费使用，本地优先</h2>
+      <p>三种方式任选 · 你的数据只存在你的电脑上</p>
     </div>
     <div class="download-cards">
       <div class="download-card">
-        <h4>Windows 完整版</h4>
-        <p class="desc">支持 Windows 10/11 64位 · 解压即用</p>
-        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.2.6/shijuan-win-x64.zip" class="btn-primary" target="_blank">
+        <h4>NSIS 安装版</h4>
+        <p class="desc">Windows 10/11 64位 · 创建桌面快捷方式</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" class="btn-primary" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载 v1.2.6 (.zip)
+          下载安装包
+        </a>
+      </div>
+      <div class="download-card">
+        <h4>便携版（推荐）</h4>
+        <p class="desc">Windows 10/11 64位 · 解压即用 · 不写注册表</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" class="btn-primary" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          下载便携版
+        </a>
+      </div>
+      <div class="download-card">
+        <h4>macOS</h4>
+        <p class="desc">Intel + Apple Silicon · zip 解压即用</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" class="btn-primary" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          下载 mac 版
         </a>
       </div>
     </div>
-    <p class="version-note">当前版本 v1.2.6 · 免费 · 开源</p>
+    <p class="version-note">
+      当前版本 v1.3.0-beta · 免费 · 开源
+      <br>
+      <a href="https://github.com/lickswan-lab/shijuan#api-key-获取指南" target="_blank" style="color: var(--accent); text-decoration: none; font-size: 13px;">→ 查看 API key 获取指南（GLM / OpenAI / Claude / DeepSeek 等）</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/lickswan-lab/shijuan/blob/master/DEVLOG.md" target="_blank" style="color: var(--accent); text-decoration: none; font-size: 13px;">→ 查看 DEVLOG（详细变更）</a>
+    </p>
   </section>
 
   <!-- DONATE + COMMUNITY -->
