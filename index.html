@@ -248,8 +248,8 @@
     /* ===== DOWNLOAD ===== */
     .download-section { background: var(--bg-warm); }
     .download-cards {
-      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
-      max-width: 700px; margin: 0 auto 24px;
+      display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+      max-width: 1100px; margin: 0 auto 24px;
     }
     .download-card {
       flex: 1; min-width: 260px; max-width: 320px;
@@ -789,29 +789,48 @@
     <div class="download-cards">
       <div class="download-card">
         <h4>NSIS 安装版</h4>
-        <p class="desc">Windows 10/11 64位 · 创建桌面快捷方式</p>
-        <a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" class="btn-primary" target="_blank">
+        <p class="desc">Windows 10/11 64位 · 127MB · 创建桌面快捷方式</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.3.0-beta/Setup.1.3.0-beta.exe" class="btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载安装包
+          直接下载
         </a>
       </div>
       <div class="download-card">
-        <h4>便携版（推荐）</h4>
-        <p class="desc">Windows 10/11 64位 · 解压即用 · 不写注册表</p>
-        <a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" class="btn-primary" target="_blank">
+        <h4>便携版 exe（推荐）</h4>
+        <p class="desc">Windows 10/11 64位 · 127MB · 解压即用 · 不写注册表</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.3.0-beta/-1.3.0-beta-.exe" class="btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载便携版
+          直接下载
         </a>
       </div>
       <div class="download-card">
-        <h4>macOS</h4>
-        <p class="desc">Intel + Apple Silicon · zip 解压即用</p>
-        <a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" class="btn-primary" target="_blank">
+        <h4>Windows zip 完整包</h4>
+        <p class="desc">含完整运行时 · 185MB · 公司电脑下不了 exe 时备用</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.3.0-beta/shijuan-win-x64.zip" class="btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载 mac 版
+          直接下载
+        </a>
+      </div>
+      <div class="download-card">
+        <h4>macOS Apple Silicon</h4>
+        <p class="desc">M 系列芯片 · 156MB · zip 解压即用</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.3.0-beta/shijuan-mac-arm64.zip" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          直接下载
+        </a>
+      </div>
+      <div class="download-card">
+        <h4>macOS Intel</h4>
+        <p class="desc">Intel 芯片 · 161MB · zip 解压即用</p>
+        <a href="https://github.com/lickswan-lab/shijuan/releases/download/v1.3.0-beta/shijuan-mac-x64.zip" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          直接下载
         </a>
       </div>
     </div>
+    <p style="text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+      看不到合适的版本？<a href="https://github.com/lickswan-lab/shijuan/releases/tag/v1.3.0-beta" target="_blank" style="color: var(--accent); text-decoration: none;">→ 查看 GitHub Release 完整列表</a>
+    </p>
 
     <!-- 未签名警告 -->
     <div style="max-width: 760px; margin: 32px auto 0; padding: 20px 24px; background: rgba(200,149,108,0.08); border-radius: 12px; border-left: 4px solid var(--accent);">
